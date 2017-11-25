@@ -1,10 +1,16 @@
-<input #searchInput type="text"/>
-<button type="button" (click)="searchButton(searchInput)">Search</button>
 <div class="images">
-  <h1>{{images?images.length:"0"}} images:</h1>
-  <div class="image" *ngFor="let image of images">
-    <h2>{{image.data[0].title}}</h2>
-    <img src="{{image.links[0].href}}"/>
+  <div class="search-form-group">
+    <mat-form-field class="text-input">
+      <mat-placeholder>Keywords</mat-placeholder>
+      <input id="searchInput" for="searchInput" matInput #searchInput type="text">
+    </mat-form-field>
+    <button mat-button (click)="searchButton(searchInput)">Search</button>
   </div>
+  <h1>{{images?images.length:"0"}} images
+    <span *ngIf="query"> for query "{{query}}"</span>:</h1>
+  <mat-grid-list cols="4">
+    <mat-grid-tile *ngFor="let image of images">
+      <img src="{{image.links[0].href}}" />
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>
-

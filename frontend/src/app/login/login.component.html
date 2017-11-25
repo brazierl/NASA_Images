@@ -1,0 +1,18 @@
+<mat-card class="login-card">
+  <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
+    <mat-form-field class="text-input">
+      <mat-placeholder>Email address</mat-placeholder>
+      <input matInput type="email" id="email" name="email" ngModel required/>
+    </mat-form-field>
+    <br/>
+    <mat-form-field class="text-input">
+      <mat-placeholder>Password</mat-placeholder>
+      <input matInput type="password" id="password" name="password" ngModel required/>
+    </mat-form-field>
+    <br/>
+    <button mat-button type="submit" [disabled]="!loginForm.form.valid">Sign in</button>
+  </form>
+  <div *ngIf="error" class="error-message">{{error}}</div>
+  -<br/>
+  <a routerLink="/register">Sign up</a>
+</mat-card>

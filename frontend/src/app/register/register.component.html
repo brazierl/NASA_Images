@@ -1,0 +1,27 @@
+<mat-card class="form-card">
+  <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
+    <mat-form-field class="text-input">
+      <mat-placeholder>First name</mat-placeholder>
+      <input matInput type="text" id="firstname" name="firstname" ngModel required/>
+    </mat-form-field>
+    <mat-form-field class="text-input">
+      <mat-placeholder>Last name</mat-placeholder>
+      <input matInput type="text" id="lastname" name="lastname" ngModel required/>
+    </mat-form-field>
+    <mat-form-field class="text-input">
+      <mat-placeholder>Username</mat-placeholder>
+      <input matInput type="text" id="username" name="username" ngModel required/>
+    </mat-form-field>
+    <mat-form-field class="text-input">
+      <mat-placeholder>Email address</mat-placeholder>
+      <input matInput type="email" id="email" name="email" ngModel required/>
+    </mat-form-field>
+    <mat-form-field class="text-input">
+      <mat-placeholder>Password</mat-placeholder>
+      <input matInput type="password" id="password" name="password" ngModel required/>
+    </mat-form-field>
+    <button mat-button type="submit" [disabled]="!registerForm.form.valid">Register</button>
+  </form>
+  <div *ngIf="error" class="error-message">{{error}}</div>
+  <div *ngIf="success" class="success-message">User profile created!</div>
+</mat-card>

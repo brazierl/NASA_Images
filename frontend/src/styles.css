@@ -1,1 +1,80 @@
-@import '~@angular/material/prebuilt-themes/purple-green.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+.menu a{
+    color: white;
+    text-decoration: none;
+}
+
+.menu-spacer{
+    width:100%;
+}
+
+body {
+    font-family: Roboto;
+}
+
+input{
+    width: 100%;
+}
+
+.main-container {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 20px;
+}
+
+.text-input{
+    width: 100%;
+}
+
+.login-card{
+    margin: auto;
+    width: 400px;
+    text-align: center;
+}
+
+.form-card{
+    width:70%;
+    margin: auto;
+    text-align: center;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #A0A0A0;
+    color: white;
+    text-align: center;
+ }
+
+ .login-card a{
+     color: rgb(40, 110, 210);
+     text-decoration: none;
+     font-size: small;
+ }
+
+ .error-message{
+     width: 95%;
+     background-color: rgb(255, 140, 140);
+     color: white;
+     border: thin solid rgb(165, 50, 50);
+     border-radius: 4px;
+     padding:10px;
+     margin: auto;
+     margin-top: 10px;
+     margin-bottom: 10px;
+ }
+
+ .success-message{
+    width: 100%;
+    background-color: rgb(140, 200, 140);
+    color: white;
+    border: thin solid rgb(50, 110, 50);
+    border-radius: 4px;
+    padding:10px;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

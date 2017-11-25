@@ -6,18 +6,28 @@ import { AppComponent } from './app.component';
 import { ImagesComponent } from './images/images.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCardModule, MatMenuModule, MatToolbarModule, MatIconModule } from '@angular/material';
+import { MatToolbarModule, MatIconModule, MatGridListModule } from '@angular/material';
+import { MatInputModule, MatButtonModule, MatCardModule, MatMenuModule,  } from '@angular/material';
 
-import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
 import { ImagesService } from './images.service';
+import { AuthenticationService } from './authentication.service';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+
+import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from './/app-routing.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ImagesComponent
+    ImagesComponent,
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
+    MatInputModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
@@ -25,9 +35,12 @@ import { ImagesService } from './images.service';
     MatMenuModule,
     MatToolbarModule,
     MatIconModule,
-    HttpModule
+    MatGridListModule,
+    HttpClientModule,
+    FormsModule,
+    AppRoutingModule
   ],
-  providers: [ImagesService],
+  providers: [ImagesService, AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

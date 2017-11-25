@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ImagesService {
@@ -8,16 +7,16 @@ export class ImagesService {
   result: any;
   imagesUrl: string;
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.imagesUrl = '/api/images';
    }
 
   getImages() {
-    return (this.http.get(this.imagesUrl).map(result => this.result = result.json().collection.items));
+    return (this.http.get(this.imagesUrl));
   }
 
   getImagesSearch(q: string) {
-    return (this.http.get(this.imagesUrl + '?' + 'q=' + encodeURIComponent(q)).map(result => this.result = result.json().collection.items));
+    return (this.http.get(this.imagesUrl + '?' + 'q=' + encodeURIComponent(q)));
   }
 
 }

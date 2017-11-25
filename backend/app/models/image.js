@@ -9,4 +9,4 @@ var ImageSchema = new Schema({
     date: Date
 });
 
-module.exports = mongoose.model('Image', MessageSchema);
+module.exports = mongoose.model('Image', ImageSchema);
