@@ -6,17 +6,38 @@
     </a>
   </span>
   <span class="menu-spacer"></span>
-  <button mat-button [matMenuTriggerFor]="appMenu">
-    <mat-icon>menu</mat-icon> Menu
+  <a routerLink="/images" mat-button> Images </a>
+  <button mat-button [matMenuTriggerFor]="collectionMenu"> Collections </button>
+  <button mat-button> About </button>
+  <div *ngIf="(loggedIn$ | async) as loggedIn;then profile else login">
+    Login/Profile Menu
+  </div>
+</mat-toolbar>
+
+<mat-menu #collectionMenu="matMenu">
+  <a routerLink="/collections" mat-menu-item> List </a>
+  <a routerLink="/collections/add" mat-menu-item> Add </a>
+  <a routerLink="/collections/edit" mat-menu-item> Edit </a>
+</mat-menu>
+
+<mat-menu #userMenu="matMenu">
+  <a routerLink="/profile" mat-menu-item> Profile </a>
+  <button (click)="logout()" mat-menu-item> Logout </button>
+</mat-menu>
+
+
+<ng-template #profile>
+  <button mat-button [matMenuTriggerFor]="userMenu">
+    <mat-icon>person</mat-icon>
+    <span *ngIf="(currentUser$ | async) as currentUser">{{(currentUser.username)}}</span>
   </button>
+</ng-template>
+
+<ng-template #login>
   <a routerLink="/login" mat-button>
     <mat-icon>person</mat-icon> Login
   </a>
-</mat-toolbar>
-<mat-menu #appMenu="matMenu">
-  <button mat-menu-item> Profile </button>
-  <button mat-menu-item> About </button>
-</mat-menu>
+</ng-template>
 
 <div class="main-container">
   <router-outlet></router-outlet>
@@ -25,7 +46,8 @@
 <footer>
   <div layout="row" layout-align="center center">
     <p>
-      Made by Louis BRAZIER <mat-icon>whatshot</mat-icon> - &copy; 2017
+      Made by Louis BRAZIER
+      <mat-icon>whatshot</mat-icon> - &copy; 2017
     </p>
   </div>
 </footer>

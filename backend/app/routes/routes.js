@@ -20,10 +20,13 @@ mongoose.connect(config.db.uri);
 
 // Import model
 var User = require('../models/user');
+var Collection = require('../models/collection');
+var Image = require('../models/image');
 
 // Import controllers
 var ctrlUser = require('../controllers/user');
 var ctrlImage = require('../controllers/image');
+var ctrlCollection = require('../controllers/collection');
 
 // Setup express jwt with the secret
 var auth = jwt({
@@ -106,10 +109,27 @@ router.route('/images/:id')
         ctrlImage.getImage(req, res);
     });
 
-router.route('/collections/:id')
-    // get every image url for a connection
+router.route('/collections')
+    .get(function(req,res){
+        ctrlCollection.getPublicCollections(req,res);
+    })
+
+    .post(function(req,res){
+        ctrlCollection.saveCollection(req,res);
+    });
+
+router.route('/collections/:collection_id')
     .get(function (req, res) {
-        ctrlImage.getCollection(req, res);
+        ctrlCollection.getCollection(req, res);
+    })
+
+    .put(function (req,res){
+        ctrlCollection.updateCollection(req,res);
+    });
+
+router.route('/collections/:collection_id/images')
+    .get(function(req,res){
+        ctrlCollection.getImages(req,res);
     });
 
 router.route('/register')

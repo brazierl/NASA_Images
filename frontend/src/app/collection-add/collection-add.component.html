@@ -1,0 +1,27 @@
+<mat-card class="form-card">
+  <h2>Add a new collection</h2>
+  <form (ngSubmit)="onSubmit(addForm)" #addForm="ngForm">
+    <mat-form-field class="text-input">
+      <mat-placeholder>Name</mat-placeholder>
+      <input matInput type="text" id="name" name="name" ngModel required/>
+    </mat-form-field>
+    <mat-form-field class="text-input">
+      <mat-placeholder>Description</mat-placeholder>
+      <input matInput type="text" id="description" name="description" ngModel required/>
+    </mat-form-field>
+    <mat-form-field class="text-input">
+      <mat-placeholder>Visibility</mat-placeholder>
+      <mat-select id="visibility" name="visibility" ngModel required>
+        <mat-option value="private">
+          Private
+        </mat-option>
+        <mat-option value="public">
+          Public
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-button type="submit" [disabled]="!addForm.form.valid">Save</button>
+  </form>
+  <div *ngIf="error" class="error-message">{{error}}</div>
+  <div *ngIf="success" class="success-message">Collection created!</div>
+</mat-card>

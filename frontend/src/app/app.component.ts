@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from './authentication.service';
+import { User } from './user';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +10,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'NASA Images';
+  loggedIn$ = this.authenticationService.isLoggedIn();
+  currentUser$ = this.authenticationService.getUser();
+
+  constructor(private authenticationService: AuthenticationService) { }
+
+  logout() {
+    this.authenticationService.logout();
+  }
 }

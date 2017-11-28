@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { catchError, map, tap } from 'rxjs/operators';
+import { User } from './user';
 
 @Injectable()
 export class AuthenticationService {
@@ -11,10 +11,15 @@ export class AuthenticationService {
   private registerUrl = '/api/register';
   private loginUrl = '/api/login';
 
+  private loggedIn = new BehaviorSubject<boolean>(false);
+  private user = new BehaviorSubject<User>(new User());
+
   constructor(private http: HttpClient) { }
 
   saveToken(token) {
     localStorage['jwt-token'] = token;
+    this.loggedIn.next(true);
+    this.updateUser();
   }
 
   getToken() {
@@ -23,6 +28,8 @@ export class AuthenticationService {
 
   logout() {
     localStorage.removeItem('jwt-token');
+    this.loggedIn.next(false);
+    this.updateUser();
   }
 
   isLoggedIn() {
@@ -32,24 +39,33 @@ export class AuthenticationService {
       payload = token.split('.')[1];
       payload = atob(payload);
       payload = JSON.parse(payload);
-
-      return payload.exp > Date.now() / 1000;
+      const res = payload.exp > Date.now() / 1000;
+      this.loggedIn.next(res);
+      return this.loggedIn.asObservable();
     } else {
-      return false;
+      this.loggedIn.next(false);
+      return this.loggedIn.asObservable();
     }
   }
 
-  currentUser() {
-    if (this.isLoggedIn()) {
+  updateUser() {
+    const user = new User();
+    if (this.loggedIn.getValue && this.getToken()) {
       const token = this.getToken();
       let payload = token.split('.')[1];
       payload = atob(payload);
       payload = JSON.parse(payload);
-      return {
-        email: payload.email,
-        name: payload.name
-      };
+      user._id = payload._id;
+      user.email = payload.email;
+      user.username = payload.username;
     }
+
+    this.user.next(user);
+  }
+
+  getUser() {
+    this.updateUser();
+    return this.user.asObservable();
   }
 
   register(user) {
@@ -60,7 +76,7 @@ export class AuthenticationService {
     return this.http.post(this.loginUrl, user);
   }
 
-  handleError (operation = 'operation', result?) {
+  handleError(operation = 'operation', result?) {
     return (error: any) => {
       console.error(error);
       this.log(`${operation} failed: ${error.message}`);

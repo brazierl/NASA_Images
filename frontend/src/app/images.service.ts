@@ -4,12 +4,9 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class ImagesService {
 
-  result: any;
-  imagesUrl: string;
+  imagesUrl = '/api/images';
 
-  constructor(private http: HttpClient) {
-    this.imagesUrl = '/api/images';
-   }
+  constructor(private http: HttpClient) { }
 
   getImages() {
     return (this.http.get(this.imagesUrl));

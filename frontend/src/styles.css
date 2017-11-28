@@ -13,6 +13,11 @@ body {
     font-family: Roboto;
 }
 
+a{
+    font-family: Roboto;
+    cursor: pointer;
+}
+
 input{
     width: 100%;
 }
