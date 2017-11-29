@@ -83,3 +83,15 @@ footer {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.instance-id {
+    color: rgb(200, 200, 200);
+}
+
+.collection-list a{
+    text-decoration: none;
+}
+
+fieldset {
+    border:none;
+}

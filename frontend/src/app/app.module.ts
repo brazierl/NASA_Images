@@ -7,7 +7,7 @@ import { ImagesComponent } from './images/images.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule, MatIconModule, MatGridListModule, MatSelectModule } from '@angular/material';
-import { MatInputModule, MatButtonModule, MatCardModule, MatMenuModule, MatListModule } from '@angular/material';
+import { MatInputModule, MatButtonModule, MatCardModule, MatMenuModule, MatListModule, MatFormFieldControl } from '@angular/material';
 
 import { HttpClientModule } from '@angular/common/http';
 

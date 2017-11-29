@@ -14,7 +14,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'collections', component: CollectionListComponent },
-  { path: 'collections/add', component: CollectionAddComponent, canActivate: [AuthenticationGuard] }
+  { path: 'collections/add', component: CollectionAddComponent, canActivate: [AuthenticationGuard] },
+  { path: 'collections/:id', component: CollectionUpdateComponent }
 ];
 
 @NgModule({

@@ -14,7 +14,7 @@ import { Collection } from '../collection';
 })
 export class CollectionAddComponent implements OnInit {
   private error: string;
-  private sucess: boolean;
+  private success: boolean;
 
   user = this.authenticationService.getUser();
 
@@ -23,34 +23,29 @@ export class CollectionAddComponent implements OnInit {
     private router: Router) { }
 
   onSubmit(addForm: NgForm) {
-    console.log('hop1');
     if (addForm.valid) {
-      console.log('hop2');
       this.user.subscribe((user: User) => {
-          console.log(user);
-          if (user) {
-            console.log(user);
-            const collection = new Collection();
-            collection.description = addForm.value.description;
-            collection.name = addForm.value.name;
-            collection.visibility = addForm.value.visibility;
-            collection.user = user;
-            console.log(collection);
-            this.collectionsService.saveCollection(collection)
-              .subscribe(
-              (data) => {
-                console.log(data['message']);
-                this.sucess = true;
-                this.router.navigate(['collections']);
-              },
-              (err: HttpErrorResponse) => {
-                this.handleError(err);
-              }
-              );
-          } else {
-            this.error = 'User should be logged in!';
-          }
-        });
+        if (user._id) {
+          const collection = new Collection();
+          collection.description = addForm.value.description;
+          collection.name = addForm.value.name;
+          collection.visibility = addForm.value.visibility;
+          collection.user = user;
+          this.collectionsService.saveCollection(collection)
+            .subscribe(
+            (data) => {
+              this.success = true;
+              addForm.reset();
+              // this.router.navigate(['/collections']);
+            },
+            (err: HttpErrorResponse) => {
+              this.handleError(err);
+            }
+            );
+        } else {
+          this.error = 'User should be logged in!';
+        }
+      });
     } else {
       this.error = 'The form is not valid!';
     }

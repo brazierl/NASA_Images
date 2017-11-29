@@ -22,7 +22,11 @@ export class CollectionsService {
     return (this.http.put(this.collectionUrl + '/' + collectionId, collection));
   }
 
-  handleError (operation = 'operation', result?) {
+  getCollection(collectionId) {
+    return (this.http.get(this.collectionUrl + '/' + collectionId));
+  }
+
+  handleError(operation = 'operation', result?) {
     return (error: any) => {
       console.error(error);
       this.log(`${operation} failed: ${error.message}`);
