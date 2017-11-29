@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService, private location: Location) { }
 
   onSubmit(loginForm: NgForm) {
+    this.error = null;
     if (loginForm.valid) {
       this.authenticationService.login(loginForm.value)
         .subscribe(

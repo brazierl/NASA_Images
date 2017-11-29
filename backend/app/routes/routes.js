@@ -123,6 +123,11 @@ router.route('/collections/:collection_id')
         ctrlCollection.deleteCollection(req, res);
     });
 
+router.route('/collections/user/:username')
+    .get(function (req, res) {
+        ctrlCollection.getUserCollection(req, res);
+    })
+
 router.route('/register')
     // Register a new user in the db
     .post(function (req, res) {

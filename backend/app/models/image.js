@@ -11,6 +11,6 @@ var ImageSchema = new Schema({
     image_collection: { type: mongoose.Schema.Types.ObjectId, ref: 'ImageCollection' }
 });
 
-// ImageSchema.index({ url: 1, image_collection: 1 }, { unique: true });
+ImageSchema.index({ url: 1, image_collection: 1 }, { unique: true });
 
 module.exports = mongoose.model('Image', ImageSchema);

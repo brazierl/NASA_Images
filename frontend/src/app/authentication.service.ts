@@ -41,9 +41,11 @@ export class AuthenticationService {
       payload = JSON.parse(payload);
       const res = payload.exp > Date.now() / 1000;
       this.loggedIn.next(res);
+      this.updateUser();
       return this.loggedIn.asObservable();
     } else {
       this.loggedIn.next(false);
+      this.updateUser();
       return this.loggedIn.asObservable();
     }
   }

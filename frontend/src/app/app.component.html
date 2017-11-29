@@ -17,6 +17,7 @@
 <mat-menu #collectionMenu="matMenu">
   <a routerLink="/collections" mat-menu-item> List </a>
   <a routerLink="/collections/add" mat-menu-item> Add </a>
+  <a *ngIf="(currentUser$ | async) as currentUser" routerLink="/collections/user/{{currentUser._id}}" mat-menu-item> My Collections </a>
 </mat-menu>
 
 <mat-menu #userMenu="matMenu">

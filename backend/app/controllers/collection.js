@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Collection = mongoose.model('ImageCollection');
 var Image = mongoose.model('Image');
+var User = mongoose.model('User');
 
 module.exports.getPublicCollections = function (req, res) {
     Collection.find({ 'visibility': "public" })
@@ -13,14 +14,22 @@ module.exports.getPublicCollections = function (req, res) {
         });
 }
 
-module.exports.getMyCollections = function (req, res) {
-    Collection.find({ 'user.usernam': req.params.username })
-        .populate('user')
-        .exec(function (err, collections) {
-            if (err)
-                res.send(err);
-            else
-                res.json(collections);
+module.exports.getUserCollection = function (req, res) {
+    User.findOne({ username: req.params.username })
+        .exec(function (err, user) {
+            if (user) {
+                Collection.find({ 'user': user._id }, null)
+                    .populate('user')
+                    .exec(function (err, collections) {
+                        if (err)
+                            res.send(err);
+                        else
+                            res.json(collections);
+                    });
+            }
+            else {
+                res.status.status(401).send('User not found');
+            }
         });
 }
 
@@ -32,6 +41,7 @@ module.exports.getCollection = function (req, res) {
             res.json(collection);
     });
 }
+
 
 module.exports.saveCollection = function (req, res) {
     var collection = new Collection();
@@ -70,7 +80,7 @@ module.exports.updateCollection = function (req, res) {
 module.exports.deleteCollection = function (req, res) {
     Collection.remove({
         _id: req.params.collection_id
-    }, function(err, collection) {
+    }, function (err, collection) {
         if (err)
             res.send(err);
         else

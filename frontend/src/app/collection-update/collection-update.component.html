@@ -1,35 +1,12 @@
 <mat-card class="form-card">
-  <h2 *ngIf="(user$ | async)._id">Edit collection
-    <button mat-button color="warn" (click)="deleteCollection()">
-      <mat-icon>clear</mat-icon>
-    </button>
-  </h2>
-  <h2 *ngIf="!(user$ | async)._id">View collection </h2>
-  <em *ngIf="collection" class="instance-id">ID: {{ collection._id }}</em>
-  <form (ngSubmit)="onSubmit(editForm)" #editForm="ngForm" *ngIf="collection">
-    <fieldset [disabled]="!(user$ | async)._id">
-      <mat-form-field class="text-input">
-        <mat-placeholder>Name</mat-placeholder>
-        <input matInput type="text" id="name" name="name" [(ngModel)]="collection.name" required/>
-      </mat-form-field>
-      <mat-form-field class="text-input">
-        <mat-placeholder>Description</mat-placeholder>
-        <input matInput type="text" id="description" name="description" [(ngModel)]="collection.description" required/>
-      </mat-form-field>
-      <mat-form-field class="text-input">
-        <mat-placeholder>Visibility</mat-placeholder>
-        <mat-select id="visibility" name="visibility" [(ngModel)]="collection.visibility" [disabled]="!(user$ | async)._id" required>
-          <mat-option value="private">
-            Private
-          </mat-option>
-          <mat-option value="public">
-            Public
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </fieldset>
-    <button *ngIf="(user$ | async)._id" mat-button type="submit" [disabled]="!editForm.form.valid">Save</button>
-  </form>
+  <div *ngIf="collection">
+    <div *ngIf="(user$ | async)._id==collection.user;then edit else view">
+      Main form
+    </div>
+  </div>
+  <div *ngIf="!collection">
+    <p>Cannot find collection.</p>
+  </div>
   <div *ngIf="error" class="error-message">{{error}}</div>
   <div *ngIf="success" class="success-message">Collection updated!</div>
 </mat-card>
@@ -38,6 +15,8 @@
   <div class="image-collection" *ngIf="(images$ | async) as images">
     <h1>{{images?images.length:"0"}} images:</h1>
     <button *ngIf="(user$ | async)._id" mat-button type="button" (click)="openImagesSelector()">Add images</button>
+    <br/>
+    <br/>
     <mat-grid-list cols="4">
       <mat-grid-tile *ngFor="let image of images">
         <div class="image-group">
@@ -48,9 +27,74 @@
               <p>{{image.description}}</p>
             </div>
           </div>
-          <button (click)="deleteImage(image)" class="delete-image"><mat-icon>clear</mat-icon></button>
+          <button (click)="deleteImage(image)" class="delete-image">
+            <mat-icon>clear</mat-icon>
+          </button>
         </div>
       </mat-grid-tile>
     </mat-grid-list>
   </div>
 </div>
+
+<ng-template #edit>
+  <div *ngIf="(user$ | async) as user">
+    <h2>Edit collection
+      <button mat-icon-button color="warn" (click)="deleteCollection()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </h2>
+    <em class="instance-id">ID: {{ collection._id }}</em>
+    <form (ngSubmit)="onSubmit(editForm)" #editForm="ngForm">
+      <fieldset [disabled]="false">
+        <mat-form-field class="text-input">
+          <mat-placeholder>Name</mat-placeholder>
+          <input matInput type="text" id="name" name="name" [(ngModel)]="collection.name" required/>
+        </mat-form-field>
+        <mat-form-field class="text-input">
+          <mat-placeholder>Description</mat-placeholder>
+          <input matInput type="text" id="description" name="description" [(ngModel)]="collection.description" required/>
+        </mat-form-field>
+        <mat-form-field class="text-input">
+          <mat-placeholder>Visibility</mat-placeholder>
+          <mat-select id="visibility" name="visibility" [(ngModel)]="collection.visibility" [disabled]="false" required>
+            <mat-option value="private">
+              Private
+            </mat-option>
+            <mat-option value="public">
+              Public
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </fieldset>
+      <button mat-button type="submit" [disabled]="!editForm.form.valid">Save</button>
+    </form>
+  </div>  
+</ng-template>
+
+<ng-template #view>
+  <h2>View collection </h2>
+  <em class="instance-id">ID: {{ collection._id }}</em>
+  <form (ngSubmit)="onSubmit(editForm)" #editForm="ngForm">
+    <fieldset [disabled]="true">
+      <mat-form-field class="text-input">
+        <mat-placeholder>Name</mat-placeholder>
+        <input matInput type="text" id="name" name="name" [(ngModel)]="collection.name" required/>
+      </mat-form-field>
+      <mat-form-field class="text-input">
+        <mat-placeholder>Description</mat-placeholder>
+        <input matInput type="text" id="description" name="description" [(ngModel)]="collection.description" required/>
+      </mat-form-field>
+      <mat-form-field class="text-input">
+        <mat-placeholder>Visibility</mat-placeholder>
+        <mat-select id="visibility" name="visibility" [(ngModel)]="collection.visibility" [disabled]="true" required>
+          <mat-option value="private">
+            Private
+          </mat-option>
+          <mat-option value="public">
+            Public
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </fieldset>
+  </form>
+</ng-template>

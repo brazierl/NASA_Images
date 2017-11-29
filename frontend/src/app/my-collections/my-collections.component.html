@@ -1,0 +1,8 @@
+<h2>My collections</h2>
+<mat-list class="collection-list">
+  <mat-list-item *ngFor="let collection of collections">
+    <mat-icon mat-list-icon>folder</mat-icon>
+    <h4 mat-line><a routerLink="/collections/{{collection._id}}">{{collection.name}}</a></h4><em> ({{collection.visibility}})</em>
+    <p mat-line><i>{{collection.user.username}}:</i> {{collection.description}} </p>
+  </mat-list-item>
+</mat-list>

@@ -2,10 +2,16 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var CollectionSchema = new Schema({
-    name: String,
+    name: {
+        type: String,
+        required: true
+    },
     description: String,
-    visibility: String,
-    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+    visibility: {
+        type: String,
+        required: true
+    },
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
 });
 
 CollectionSchema.pre('remove', function(next) {

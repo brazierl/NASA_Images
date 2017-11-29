@@ -18,12 +18,16 @@ export class CollectionListComponent implements OnInit {
         this.collections = collections;
       },
       (err: HttpErrorResponse) => {
-        console.log(err);
+        this.handleError(err);
       }
     );
   }
 
   ngOnInit() {
+  }
+
+  handleError(err: HttpErrorResponse) {
+    return this.collectionsService.handleError('add-collection', []);
   }
 
 }

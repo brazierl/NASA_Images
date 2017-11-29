@@ -11,6 +11,7 @@ export class CollectionsService {
   apiUrl = '/api';
   collectionUrl = '/collections';
   imagesUrl = '/images';
+  userUrl = '/user';
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +23,10 @@ export class CollectionsService {
     return (this.http.get<Collection[]>(this.apiUrl + this.collectionUrl));
   }
 
+  getUserCollections(username): Observable<Collection[]> {
+    return (this.http.get<Collection[]>(this.apiUrl + this.collectionUrl + this.userUrl + '/' + username));
+  }
+
   updateCollection(collectionId, collection: Collection) {
     return (this.http.put(this.apiUrl + this.collectionUrl + '/' + collectionId, collection));
   }
@@ -31,11 +36,11 @@ export class CollectionsService {
   }
 
   getImages(collectionId): Observable<Image> {
-    return (this.http.get<Image>(this.apiUrl + this.imagesUrl + this.collectionUrl + '/' + collectionId ));
+    return (this.http.get<Image>(this.apiUrl + this.imagesUrl + this.collectionUrl + '/' + collectionId));
   }
 
   addImage(collectionId, image) {
-    return (this.http.post(this.apiUrl + this.imagesUrl + this.collectionUrl + '/' + collectionId , image));
+    return (this.http.post(this.apiUrl + this.imagesUrl + this.collectionUrl + '/' + collectionId, image));
   }
 
   deleteImage(collectionId, imageId) {
