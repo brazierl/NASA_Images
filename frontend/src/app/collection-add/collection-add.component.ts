@@ -55,7 +55,7 @@ export class CollectionAddComponent implements OnInit {
   }
 
   handleError(err: HttpErrorResponse) {
-    this.error = 'Registration failed: ' + err.message;
-    return this.collectionsService.handleError('register', []);
+    this.error = 'Fail to save collection: ' + err.message;
+    return this.collectionsService.handleError('add-collection', []);
   }
 }

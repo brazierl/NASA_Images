@@ -6,8 +6,9 @@ import { AppComponent } from './app.component';
 import { ImagesComponent } from './images/images.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule, MatIconModule, MatGridListModule, MatSelectModule } from '@angular/material';
+import { MatToolbarModule, MatIconModule, MatGridListModule, MatSelectModule, MatDialogModule } from '@angular/material';
 import { MatInputModule, MatButtonModule, MatCardModule, MatMenuModule, MatListModule, MatFormFieldControl } from '@angular/material';
+import { MatCheckboxModule } from '@angular/material';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -25,6 +26,8 @@ import { CollectionAddComponent } from './collection-add/collection-add.componen
 import { CollectionUpdateComponent } from './collection-update/collection-update.component';
 
 import { AuthenticationGuard } from './authentication-guard';
+import { ImagesSelectorComponent } from './images-selector/images-selector.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,9 @@ import { AuthenticationGuard } from './authentication-guard';
     LoginComponent,
     CollectionListComponent,
     CollectionAddComponent,
-    CollectionUpdateComponent
+    CollectionUpdateComponent,
+    ImagesSelectorComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     MatInputModule,
@@ -48,11 +53,14 @@ import { AuthenticationGuard } from './authentication-guard';
     MatGridListModule,
     MatSelectModule,
     MatListModule,
+    MatDialogModule,
     HttpClientModule,
+    MatCheckboxModule,
     FormsModule,
     AppRoutingModule
   ],
   providers: [ImagesService, AuthenticationService, CollectionsService, AuthenticationGuard],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ImagesSelectorComponent, ConfirmationDialogComponent]
 })
 export class AppModule { }

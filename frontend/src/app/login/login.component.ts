@@ -42,8 +42,8 @@ export class LoginComponent implements OnInit {
   }
 
   handleError(err: HttpErrorResponse) {
-    this.error = 'Registration failed: ' + err.message;
-    return this.authenticationService.handleError('register', []);
+    this.error = 'Authentication failed: ' + err.message;
+    return this.authenticationService.handleError('login', []);
   }
 
   logout() {

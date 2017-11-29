@@ -1,24 +1,27 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-
-.menu a{
+.menu a {
     color: white;
     text-decoration: none;
 }
 
-.menu-spacer{
-    width:100%;
+.menu-spacer {
+    width: 100%;
+}
+
+.list-spacer {
+    width: 100%;
 }
 
 body {
     font-family: Roboto;
 }
 
-a{
+a {
     font-family: Roboto;
     cursor: pointer;
 }
 
-input{
+input {
     width: 100%;
 }
 
@@ -28,18 +31,18 @@ input{
     padding-top: 20px;
 }
 
-.text-input{
+.text-input {
     width: 100%;
 }
 
-.login-card{
+.login-card {
     margin: auto;
     width: 400px;
     text-align: center;
 }
 
-.form-card{
-    width:70%;
+.form-card {
+    width: 70%;
     margin: auto;
     text-align: center;
 }
@@ -52,33 +55,33 @@ footer {
     background-color: #A0A0A0;
     color: white;
     text-align: center;
- }
+}
 
- .login-card a{
-     color: rgb(40, 110, 210);
-     text-decoration: none;
-     font-size: small;
- }
+.login-card a {
+    color: rgb(40, 110, 210);
+    text-decoration: none;
+    font-size: small;
+}
 
- .error-message{
-     width: 95%;
-     background-color: rgb(255, 140, 140);
-     color: white;
-     border: thin solid rgb(165, 50, 50);
-     border-radius: 4px;
-     padding:10px;
-     margin: auto;
-     margin-top: 10px;
-     margin-bottom: 10px;
- }
+.error-message {
+    width: 95%;
+    background-color: rgb(255, 140, 140);
+    color: white;
+    border: thin solid rgb(165, 50, 50);
+    border-radius: 4px;
+    padding: 10px;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
- .success-message{
+.success-message {
     width: 100%;
     background-color: rgb(140, 200, 140);
     color: white;
     border: thin solid rgb(50, 110, 50);
     border-radius: 4px;
-    padding:10px;
+    padding: 10px;
     margin: auto;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -88,10 +91,70 @@ footer {
     color: rgb(200, 200, 200);
 }
 
-.collection-list a{
+.collection-list a {
     text-decoration: none;
 }
 
 fieldset {
-    border:none;
+    border: none;
+}
+
+.modal-images-selector {
+    overflow: scroll;
+}
+
+.image-checkbox {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+}
+
+.search-form-group {
+    cursor: pointer;
+}
+
+.image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.overlay {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: rgb(255, 255, 255);
+}
+
+.image-group:hover .overlay {
+    opacity: 0.8;
+}
+
+.text {
+    width: 80%;
+    height: 80%;
+    color: rgb(0, 0, 0);
+    font-size: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+.delete-image {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
 }

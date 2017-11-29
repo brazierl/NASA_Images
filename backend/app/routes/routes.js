@@ -25,8 +25,9 @@ var Image = require('../models/image');
 
 // Import controllers
 var ctrlUser = require('../controllers/user');
-var ctrlImage = require('../controllers/image');
+var ctrlRemoteImage = require('../controllers/remote-image');
 var ctrlCollection = require('../controllers/collection');
+var ctrlImage = require('../controllers/image');
 
 // Setup express jwt with the secret
 var auth = jwt({
@@ -95,27 +96,18 @@ app.use(function (err, req, res, next) {
 // =============================================================================
 var router = express.Router(); // get instance of Router
 
-// on routes that end in /images
-// ----------------------------------------------------
-router.route('/images')
-    // get all the images from API
-    .get(function (req, res) {
-        ctrlImage.getImages(req, res);
-    });
-
-router.route('/images/:id')
-    // get one image from the api
-    .get(function (req, res) {
-        ctrlImage.getImage(req, res);
-    });
-
-router.route('/collections')
-    .get(function(req,res){
-        ctrlCollection.getPublicCollections(req,res);
+router.route('/images/:image_id')
+    .delete(function (req, res) {
+        ctrlImage.deleteImage(req, res);
     })
 
-    .post(function(req,res){
-        ctrlCollection.saveCollection(req,res);
+router.route('/images/collections/:collection_id')
+    .get(function (req, res) {
+        ctrlImage.getImages(req, res);
+    })
+
+    .post(function (req, res) {
+        ctrlImage.saveImage(req, res);
     });
 
 router.route('/collections/:collection_id')
@@ -123,13 +115,12 @@ router.route('/collections/:collection_id')
         ctrlCollection.getCollection(req, res);
     })
 
-    .put(function (req,res){
-        ctrlCollection.updateCollection(req,res);
-    });
+    .put(function (req, res) {
+        ctrlCollection.updateCollection(req, res);
+    })
 
-router.route('/collections/:collection_id/images')
-    .get(function(req,res){
-        ctrlCollection.getImages(req,res);
+    .delete(function (req, res) {
+        ctrlCollection.deleteCollection(req, res);
     });
 
 router.route('/register')
@@ -156,6 +147,29 @@ router.route('/users')
     });
 
 router.get('/profile', auth, ctrlUser.profileRead);
+
+// on routes that end in /images
+// ----------------------------------------------------
+router.route('/remote-images')
+    // get all the images from API
+    .get(function (req, res) {
+        ctrlRemoteImage.getImages(req, res);
+    });
+
+router.route('/remote-images/:id')
+    // get one image from the api
+    .get(function (req, res) {
+        ctrlRemoteImage.getImage(req, res);
+    });
+
+router.route('/collections')
+    .get(function (req, res) {
+        ctrlCollection.getPublicCollections(req, res);
+    })
+
+    .post(function (req, res) {
+        ctrlCollection.saveCollection(req, res);
+    });
 
 app.use(passport.initialize());
 app.use(config.app.restApiRoute, router);

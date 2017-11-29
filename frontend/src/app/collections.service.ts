@@ -2,28 +2,48 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Collection } from './collection';
 import { of } from 'rxjs/observable/of';
+import { Observable } from 'rxjs/Observable';
+import { Image } from './image';
 
 @Injectable()
 export class CollectionsService {
 
-  collectionUrl = '/api/collections';
+  apiUrl = '/api';
+  collectionUrl = '/collections';
+  imagesUrl = '/images';
 
   constructor(private http: HttpClient) { }
 
   saveCollection(collection: Collection) {
-    return (this.http.post(this.collectionUrl, collection));
+    return (this.http.post(this.apiUrl + this.collectionUrl, collection));
   }
 
-  getPublicCollections() {
-    return (this.http.get(this.collectionUrl));
+  getPublicCollections(): Observable<Collection[]> {
+    return (this.http.get<Collection[]>(this.apiUrl + this.collectionUrl));
   }
 
   updateCollection(collectionId, collection: Collection) {
-    return (this.http.put(this.collectionUrl + '/' + collectionId, collection));
+    return (this.http.put(this.apiUrl + this.collectionUrl + '/' + collectionId, collection));
   }
 
-  getCollection(collectionId) {
-    return (this.http.get(this.collectionUrl + '/' + collectionId));
+  getCollection(collectionId): Observable<Collection> {
+    return (this.http.get<Collection>(this.apiUrl + this.collectionUrl + '/' + collectionId));
+  }
+
+  getImages(collectionId): Observable<Image> {
+    return (this.http.get<Image>(this.apiUrl + this.imagesUrl + this.collectionUrl + '/' + collectionId ));
+  }
+
+  addImage(collectionId, image) {
+    return (this.http.post(this.apiUrl + this.imagesUrl + this.collectionUrl + '/' + collectionId , image));
+  }
+
+  deleteImage(collectionId, imageId) {
+    return (this.http.delete(this.apiUrl + this.imagesUrl + '/' + imageId));
+  }
+
+  deleteCollection(collectionId) {
+    return (this.http.delete(this.apiUrl + this.collectionUrl + '/' + collectionId));
   }
 
   handleError(operation = 'operation', result?) {

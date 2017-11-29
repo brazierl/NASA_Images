@@ -1,5 +1,9 @@
 <mat-card class="form-card">
-  <h2 *ngIf="(user$ | async)._id">Edit collection </h2>
+  <h2 *ngIf="(user$ | async)._id">Edit collection
+    <button mat-button color="warn" (click)="deleteCollection()">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </h2>
   <h2 *ngIf="!(user$ | async)._id">View collection </h2>
   <em *ngIf="collection" class="instance-id">ID: {{ collection._id }}</em>
   <form (ngSubmit)="onSubmit(editForm)" #editForm="ngForm" *ngIf="collection">
@@ -30,11 +34,23 @@
   <div *ngIf="success" class="success-message">Collection updated!</div>
 </mat-card>
 <br/>
-<div class="image-collection" *ngIf="collection">
-  <h1>{{images?images.length:"0"}} images:</h1>
-  <mat-grid-list cols="4">
-    <mat-grid-tile *ngFor="let image of images">
-      <img src="{{image.links[0].href}}" />
-    </mat-grid-tile>
-  </mat-grid-list>
+<div class="images" *ngIf="collection">
+  <div class="image-collection" *ngIf="(images$ | async) as images">
+    <h1>{{images?images.length:"0"}} images:</h1>
+    <button *ngIf="(user$ | async)._id" mat-button type="button" (click)="openImagesSelector()">Add images</button>
+    <mat-grid-list cols="4">
+      <mat-grid-tile *ngFor="let image of images">
+        <div class="image-group">
+          <img src="{{image.url}}" class="image" />
+          <div class="overlay">
+            <div class="text">
+              <h3>{{image.title}}</h3>
+              <p>{{image.description}}</p>
+            </div>
+          </div>
+          <button (click)="deleteImage(image)" class="delete-image"><mat-icon>clear</mat-icon></button>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
 </div>

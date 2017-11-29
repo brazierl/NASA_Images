@@ -8,4 +8,9 @@ var CollectionSchema = new Schema({
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 
+CollectionSchema.pre('remove', function(next) {
+    Image.remove({image_collection: this._id}).exec();
+    next();
+});
+
 module.exports = mongoose.model('ImageCollection', CollectionSchema);

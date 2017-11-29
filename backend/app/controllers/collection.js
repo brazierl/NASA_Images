@@ -33,18 +33,6 @@ module.exports.getCollection = function (req, res) {
     });
 }
 
-module.exports.getImages = function (req, res) {
-    Image.find({ 'collection._id': req.params.collection_id })
-        .populate('collection')
-        .populate('user')
-        .exec(function (err, images) {
-            if (err)
-                res.send(err);
-            else
-                res.json(images);
-        });
-}
-
 module.exports.saveCollection = function (req, res) {
     var collection = new Collection();
     collection.name = req.body.name;
@@ -76,5 +64,16 @@ module.exports.updateCollection = function (req, res) {
             else
                 res.json({ message: 'Collection updated!' });
         });
+    });
+}
+
+module.exports.deleteCollection = function (req, res) {
+    Collection.remove({
+        _id: req.params.collection_id
+    }, function(err, collection) {
+        if (err)
+            res.send(err);
+        else
+            res.json({ message: 'Collection deleted' });
     });
 }

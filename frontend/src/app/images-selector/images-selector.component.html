@@ -1,0 +1,32 @@
+<div class="modal-images-selector">
+  <h2>Select images</h2>
+  <h3>Selected:</h3>
+  <mat-list>
+    <mat-list-item *ngFor="let sImg of selectedImages"><a target="_blank" href="{{sImg.url}}">{{sImg.title}}</a><span class="list-spacer"></span><button (click)="unselectImage(sImg)" mat-button><mat-icon>clear</mat-icon></button></mat-list-item>
+  </mat-list>
+  <button (click)="addToCollection()" mat-button [disabled]="!selectedImages.length">Add to collection</button>
+  <div *ngIf="error" class="error-message">{{error}}</div>
+  <div *ngIf="success" class="success-message">Collection updated!</div>
+  <div class="search-form-group">
+    <mat-form-field class="text-input">
+      <mat-placeholder>Keywords</mat-placeholder>
+      <input id="searchInput" for="searchInput" matInput #searchInput type="text">
+    </mat-form-field>
+    <button mat-button (click)="searchButton(searchInput)">Search</button>
+  </div>
+  <h1>{{images?images.length:"0"}} images
+    <span *ngIf="query"> for query "{{query}}"</span>:</h1>
+  <mat-grid-list cols="3">
+    <mat-grid-tile *ngFor="let image of images" (click)="addImage(image)">
+      <div class="image-group">
+        <img src="{{image.links[0].href}}" class="image"/>
+        <div class="overlay">
+            <div class="text">
+              <h3>{{image.data[0].title}}</h3>
+              <p>{{image.data[0].description}}</p>
+            </div>
+          </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

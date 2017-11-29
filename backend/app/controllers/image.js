@@ -1,60 +1,43 @@
-var config = require('../config');
-var https = require("https");
-var querystring = require('querystring');
-
-// retreive the JSON when communicate with remote API
-function getJSON(res, options) {
-    const reqApi = https.request(options, (resApi) => {
-        let rawData = '';
-        resApi.on('data', (chunk) => {
-            rawData += chunk;
-        });
-        resApi.on('end', () => {
-            const parsedData = JSON.parse(rawData);
-            res.json(parsedData);
-        });
-    });
-    reqApi.on('error', (e) => {
-        console.error(`Problem with request: ${e.message}`);
-    });
-    reqApi.end();
-}
+var mongoose = require('mongoose');
+var Collection = mongoose.model('ImageCollection');
+var Image = mongoose.model('Image');
 
 module.exports.getImages = function (req, res) {
-    var q = req.query.q;
-    if (!q)
-        q = "*";
-    const options = {
-        hostname: config.images.host,
-        path: config.images.path.search + "?" + querystring.stringify(
-            {
-                "q": q,
-                "media_type": "image"
-            }),
-        method: 'GET'
-    };
-    getJSON(res, options);
-};
+    Image.find({ 'image_collection': req.params.collection_id })
+        // .populate('image_collection')
+        // .populate('user')
+        .exec(function (err, images) {
+            if (err)
+                res.send(err);
+            else
+                res.json(images);
+        });
+}
 
-module.exports.getImage = function (req, res) {
-    const options = {
-        hostname: config.images.host,
-        path: config.images.path.search + "?" + querystring.stringify(
-            {
-                "nasa_id": req.params.id,
-                "media_type": "image"
-            }),
-        method: 'GET'
-    };
-    getJSON(res, options);
-};
+module.exports.saveImage = function (req, res) {
+    var image = new Image();
+    image.title = req.body.title;
+    image.description = req.body.description;
+    image.url = req.body.url;
+    image.image_collection = req.body.image_collection;
+    
+    image.save(function (err) {
+        if (err)
+            res.send(err);
+        else
+            res.json({ image: 'Image created!' });
+    });
+}
 
-module.exports.getCollection = function (req, res) {
-    const options = {
-        hostname: config.images.host,
-        path: config.images.path.asset + "/" + querystring.stringify(req.params.id),
-        method: 'GET'
-    };
-    getJSON(res, options);
-};
+module.exports.deleteImage = function (req, res) {
+    Image.remove({
+        _id: req.params.image_id
+    }, function(err, image) {
+        if (err)
+            res.send(err);
+        else
+            res.json({ message: 'Image deleted' });
+    });
+}
+
 
