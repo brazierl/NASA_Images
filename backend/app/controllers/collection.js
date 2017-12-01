@@ -28,7 +28,7 @@ module.exports.getUserCollection = function (req, res) {
                     });
             }
             else {
-                res.status.status(401).send('User not found');
+                res.status(401).send('User not found');
             }
         });
 }

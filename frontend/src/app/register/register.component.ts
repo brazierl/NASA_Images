@@ -14,7 +14,7 @@ import { NgForm } from '@angular/forms';
 export class RegisterComponent implements OnInit {
 
   private error: string;
-  private sucess: boolean;
+  private success: string;
 
   constructor(private authenticationService: AuthenticationService) { }
 
@@ -23,14 +23,13 @@ export class RegisterComponent implements OnInit {
       this.authenticationService.register(registerForm.value)
         .subscribe(
         (data) => {
-          this.authenticationService.saveToken(data['token']);
-          this.sucess = true;
+          this.success = data['message'];
         },
         (err: HttpErrorResponse) => {
           this.handleError(err);
         }
         );
-    }else {
+    } else {
       this.error = 'The form is not valid!';
     }
   }

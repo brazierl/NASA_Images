@@ -8,16 +8,18 @@ import { CollectionAddComponent } from './collection-add/collection-add.componen
 import { CollectionUpdateComponent } from './collection-update/collection-update.component';
 import { AuthenticationGuard } from './authentication-guard';
 import { MyCollectionsComponent } from './my-collections/my-collections.component';
+import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/collections', pathMatch: 'full' },
+  { path: 'about', component: AboutComponent },
   { path: 'images', component: ImagesComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'collections', component: CollectionListComponent },
   { path: 'collections/add', component: CollectionAddComponent, canActivate: [AuthenticationGuard] },
   { path: 'collections/:id', component: CollectionUpdateComponent },
-  { path: 'collections/user/:id', component: MyCollectionsComponent }
+  { path: 'collections/user/:id', component: MyCollectionsComponent, canActivate: [AuthenticationGuard] }
 ];
 
 @NgModule({

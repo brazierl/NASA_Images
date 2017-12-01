@@ -15,7 +15,7 @@
     </mat-form-field>
     <mat-form-field class="text-input">
       <mat-placeholder>Email address</mat-placeholder>
-      <input matInput type="email" id="email" name="email" ngModel required/>
+      <input matInput type="email" id="email" name="email" email ngModel required/>
     </mat-form-field>
     <mat-form-field class="text-input">
       <mat-placeholder>Password</mat-placeholder>
@@ -24,5 +24,5 @@
     <button mat-button type="submit" [disabled]="!registerForm.form.valid">Register</button>
   </form>
   <div *ngIf="error" class="error-message">{{error}}</div>
-  <div *ngIf="success" class="success-message">User profile created!</div>
+  <div *ngIf="success" class="success-message">{{success}}</div>
 </mat-card>

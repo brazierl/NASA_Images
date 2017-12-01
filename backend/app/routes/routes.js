@@ -22,6 +22,7 @@ mongoose.connect(config.db.uri);
 var User = require('../models/user');
 var Collection = require('../models/collection');
 var Image = require('../models/image');
+var TempUser = require('../models/temp-user');
 
 // Import controllers
 var ctrlUser = require('../controllers/user');
@@ -174,6 +175,25 @@ router.route('/collections')
 
     .post(function (req, res) {
         ctrlCollection.saveCollection(req, res);
+    });
+
+router.route('/ratings/collections/:id')
+    .get(function (req, res) {
+
+    })
+
+    .post(function (req, res) {
+
+    });
+
+router.route('/ratings/collections/:idCollection/user/:idUser')
+    .get(function (req, res) {
+
+    });
+
+router.route('/email-verification/:id')
+    .get(function (req, res) {
+        ctrlUser.verifyUser(req, res);
     });
 
 app.use(passport.initialize());

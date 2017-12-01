@@ -29,6 +29,7 @@ import { AuthenticationGuard } from './authentication-guard';
 import { ImagesSelectorComponent } from './images-selector/images-selector.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MyCollectionsComponent } from './my-collections/my-collections.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { MyCollectionsComponent } from './my-collections/my-collections.componen
     CollectionUpdateComponent,
     ImagesSelectorComponent,
     ConfirmationDialogComponent,
-    MyCollectionsComponent
+    MyCollectionsComponent,
+    AboutComponent
   ],
   imports: [
     MatInputModule,
