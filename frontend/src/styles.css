@@ -1,7 +1,12 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 .menu a {
     color: white;
     text-decoration: none;
+}
+
+.menu{
+    width: 100%;
 }
 
 .menu-spacer {
@@ -13,7 +18,10 @@
 }
 
 body {
+    margin: 0px;
+    padding: 0px;
     font-family: Roboto;
+    width: 100%;
 }
 
 a {
@@ -29,6 +37,7 @@ input {
     padding-left: 5%;
     padding-right: 5%;
     padding-top: 20px;
+    width: 90%;
 }
 
 .text-input {
@@ -157,4 +166,15 @@ fieldset {
     background: transparent;
     border: none;
     cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+    #site-name {
+        visibility: hidden;
+        width: 0px;
+    }
+
+    .menu-spacer{
+        width: 0px;
+    }    
 }

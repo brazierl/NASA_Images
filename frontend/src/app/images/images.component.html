@@ -10,7 +10,15 @@
     <span *ngIf="query"> for query "{{query}}"</span>:</h1>
   <mat-grid-list cols="4">
     <mat-grid-tile *ngFor="let image of images">
-      <img src="{{image.links[0].href}}" />
+      <div class="image-group">
+        <img src="{{image.links[0].href}}" class="image"/>
+        <div class="overlay">
+            <div class="text">
+              <h3>{{image.data[0].title}}</h3>
+              <p>{{image.data[0].description}}</p>
+            </div>
+          </div>
+      </div>
     </mat-grid-tile>
   </mat-grid-list>
 </div>

@@ -18,19 +18,19 @@ nev.configure({
     URLFieldName: 'GENERATED_VERIFYING_URL',
 
     transportOptions: {
-        host: config.emailverification.smtphost,
-        port: config.emailverification.smtpport,
-        secure: config.emailverification.secure,
+        host: config.mailserver.smtphost,
+        port: config.mailserver.smtpport,
+        secure: config.mailserver.smtpsecure,
         auth: {
-            user: config.emailverification.email,
-            pass: config.emailverification.password
+            user: config.mailserver.email,
+            pass: config.mailserver.password
         },
         tls: {
             rejectUnauthorized: false
         }
     },
     verifyMailOptions: {
-        from: 'Do Not Reply <' + config.emailverification.email + '>',
+        from: 'Do Not Reply <' + config.mailserver.email + '>',
         subject: 'Please confirm account',
         html: '<h1>Please confirm account</h1><p>Click <a target="_blank" href="${URL}">this link</a> to confirm your account or go to ${URL}.</p>',
         text: 'Please confirm your account by navigating to this link: ${URL}'

@@ -23,12 +23,14 @@ var User = require('../models/user');
 var Collection = require('../models/collection');
 var Image = require('../models/image');
 var TempUser = require('../models/temp-user');
+var DmcaRequest = require('../models/dmca-request');
 
 // Import controllers
 var ctrlUser = require('../controllers/user');
 var ctrlRemoteImage = require('../controllers/remote-image');
 var ctrlCollection = require('../controllers/collection');
 var ctrlImage = require('../controllers/image');
+var ctrlDmcaRequest = require('../controllers/dmca-request');
 
 // Setup express jwt with the secret
 var auth = jwt({
@@ -195,6 +197,11 @@ router.route('/email-verification/:id')
     .get(function (req, res) {
         ctrlUser.verifyUser(req, res);
     });
+
+router.route('/dmca/collections')
+    .post(function (req,res){
+        ctrlDmcaRequest.createRequest(req,res);
+    })
 
 app.use(passport.initialize());
 app.use(config.app.restApiRoute, router);

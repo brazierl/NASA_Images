@@ -14,7 +14,7 @@
 <div class="images" *ngIf="collection">
   <div class="image-collection" *ngIf="(images$ | async) as images">
     <h1>{{images?images.length:"0"}} images:</h1>
-    <button *ngIf="(user$ | async)._id" mat-button type="button" (click)="openImagesSelector()">Add images</button>
+    <button *ngIf="(user$ | async)._id==collection.user" mat-button type="button" (click)="openImagesSelector()">Add images</button>
     <br/>
     <br/>
     <mat-grid-list cols="4">
@@ -27,7 +27,7 @@
               <p>{{image.description}}</p>
             </div>
           </div>
-          <button (click)="deleteImage(image)" class="delete-image">
+          <button (click)="deleteImage(image)" *ngIf="(user$ | async)._id==collection.user" class="delete-image">
             <mat-icon>clear</mat-icon>
           </button>
         </div>

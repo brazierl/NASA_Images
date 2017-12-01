@@ -1,14 +1,19 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<mat-toolbar color="primary" class="menu">
-  <span>
+<mat-toolbar color="primary" class="menu" id="toolbar">
+  <span id="site-name">
     <a routerLink="/">
       {{title}}
     </a>
   </span>
   <span class="menu-spacer"></span>
-  <a routerLink="/images" mat-button> Images </a>
-  <button mat-button [matMenuTriggerFor]="collectionMenu"> Collections </button>
-  <a routerLink="/about" mat-button> About </a>
+  <span>
+    <a routerLink="/images" mat-button> Images </a>
+  </span>
+  <span>
+    <button mat-button [matMenuTriggerFor]="collectionMenu"> Collections </button>
+  </span>
+  <span>
+    <a routerLink="/about" mat-button> About </a>
+  </span>
   <div *ngIf="(loggedIn$ | async) as loggedIn;then profile else login">
     Login/Profile Menu
   </div>
@@ -21,8 +26,12 @@
 </mat-menu>
 
 <mat-menu #userMenu="matMenu">
-  <a routerLink="/profile" mat-menu-item> Profile </a>
-  <button (click)="logout()" mat-menu-item> Logout </button>
+  <span>
+    <a routerLink="/profile" mat-menu-item> Profile </a>
+  </span>
+  <span>
+    <button (click)="logout()" mat-menu-item> Logout </button>
+  </span>
 </mat-menu>
 
 

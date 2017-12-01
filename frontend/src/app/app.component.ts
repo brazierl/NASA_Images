@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'NASA Images';
+  title = 'Image Collections';
   loggedIn$ = this.authenticationService.isLoggedIn();
   currentUser$ = this.authenticationService.getUser();
 

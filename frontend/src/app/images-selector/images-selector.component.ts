@@ -71,8 +71,6 @@ export class ImagesSelectorComponent implements OnInit {
     if (this.selectedImages.length > 0) {
       for (let i = 0; i < this.selectedImages.length; i++) {
         const img = this.selectedImages[i];
-        console.log(img.image_collection);
-        console.log(this.data.collection._id);
         this.collectionsService.addImage(this.data.collection._id, img).subscribe(
           (data) => {
             this.success = true;
