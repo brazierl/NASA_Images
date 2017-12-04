@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Collection = mongoose.model('ImageCollection');
 var Image = mongoose.model('Image');
 
+// Get the local images saved in the DB
 module.exports.getImages = function (req, res) {
     Image.find({ 'image_collection': req.params.collection_id })
         // .populate('image_collection')
@@ -14,6 +15,7 @@ module.exports.getImages = function (req, res) {
         });
 }
 
+// Save a local image in the DB
 module.exports.saveImage = function (req, res) {
     var image = new Image();
     image.title = req.body.title;
@@ -29,6 +31,7 @@ module.exports.saveImage = function (req, res) {
     });
 }
 
+// Delete a local image from the DB
 module.exports.deleteImage = function (req, res) {
     Image.remove({
         _id: req.params.image_id

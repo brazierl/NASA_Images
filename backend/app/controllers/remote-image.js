@@ -2,7 +2,7 @@ var config = require('../config');
 var https = require("https");
 var querystring = require('querystring');
 
-// retreive the JSON when communicate with remote API
+// retreive the JSON when communicate with remote API (NASA)
 function getJSON(res, options) {
     const reqApi = https.request(options, (resApi) => {
         let rawData = '';
@@ -20,6 +20,7 @@ function getJSON(res, options) {
     reqApi.end();
 }
 
+// Get the remote images from the DB
 module.exports.getImages = function (req, res) {
     var q = req.query.q;
     if (!q)
@@ -36,6 +37,7 @@ module.exports.getImages = function (req, res) {
     getJSON(res, options);
 };
 
+// Get a specific image from the API using an ID
 module.exports.getImage = function (req, res) {
     const options = {
         hostname: config.images.host,
@@ -49,6 +51,7 @@ module.exports.getImage = function (req, res) {
     getJSON(res, options);
 };
 
+// Get a remote collection from the API
 module.exports.getCollection = function (req, res) {
     const options = {
         hostname: config.images.host,

@@ -38,6 +38,7 @@ nev.configure({
 }, function (error, options) {
 });
 
+// Retreive the profile of a user
 module.exports.readProfile = function (req, res) {
     var token = req.headers.authorization;
     if (token) {
@@ -68,6 +69,7 @@ module.exports.readProfile = function (req, res) {
     }
 };
 
+// Register a new user
 module.exports.register = function (req, res) {
     var user = new User();
     user.username = req.body.username;
@@ -115,6 +117,7 @@ module.exports.register = function (req, res) {
     });
 };
 
+// Verify a user after email verification
 module.exports.verifyUser = function (req, res) {
     var url = req.params.id;
     nev.confirmTempUser(url, function (err, user) {
@@ -133,6 +136,7 @@ module.exports.verifyUser = function (req, res) {
     });
 }
 
+// Verify user credentials
 module.exports.login = function (req, res) {
     passport.authenticate('local', function (err, user, info) {
         var token;

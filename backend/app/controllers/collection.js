@@ -3,6 +3,7 @@ var Collection = mongoose.model('ImageCollection');
 var Image = mongoose.model('Image');
 var User = mongoose.model('User');
 
+// Get all public collections
 module.exports.getPublicCollections = function (req, res) {
     Collection.find({ 'visibility': "public" })
         .populate('user')
@@ -15,6 +16,7 @@ module.exports.getPublicCollections = function (req, res) {
         });
 }
 
+// Get a user's collections
 module.exports.getUserCollection = function (req, res) {
     User.findOne({ username: req.params.username })
         .exec(function (err, user) {
@@ -34,6 +36,7 @@ module.exports.getUserCollection = function (req, res) {
         });
 }
 
+// Get a specific collection
 module.exports.getCollection = function (req, res) {
     Collection.findById(req.params.collection_id, function (err, collection) {
         if (err)
@@ -43,7 +46,7 @@ module.exports.getCollection = function (req, res) {
     });
 }
 
-
+// Create a collection in the DB
 module.exports.saveCollection = function (req, res) {
     var collection = new Collection();
     collection.name = req.body.name;
@@ -59,6 +62,7 @@ module.exports.saveCollection = function (req, res) {
     });
 }
 
+// Update an exisiting collection
 module.exports.updateCollection = function (req, res) {
     Collection.findById(req.params.collection_id, function (err, collection) {
         if (err)
@@ -79,6 +83,7 @@ module.exports.updateCollection = function (req, res) {
     });
 }
 
+// Remove a collection from the database
 module.exports.deleteCollection = function (req, res) {
     Collection.remove({
         _id: req.params.collection_id

@@ -76,8 +76,7 @@ passport.use(new LocalStrategy({
 
 // Configure application
 app.set('json escape', 'true');
-app.set('title', 'Message Board');
-//app.use(express.static(path.join(__dirname,'static'))); // allow direct access to this folder
+app.set('title', 'Image Collection');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -149,10 +148,6 @@ router.route('/profile')
         ctrlUser.readProfile(req,res);
     });
 
-// router.get('/profile', auth, ctrlUser.readProfile);
-
-// on routes that end in /images
-// ----------------------------------------------------
 router.route('/remote-images')
     // get all the images from API
     .get(function (req, res) {

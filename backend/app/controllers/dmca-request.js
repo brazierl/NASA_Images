@@ -37,6 +37,7 @@ const imap = {
     markSeen: true
 };
 
+// Callback function called when a mail is beeing received
 function callbackOnMail(mail) {
     console.log('Mail receveived: ' + mail.subject);
     var splitSubject = mail.subject.split(':');
@@ -84,9 +85,7 @@ function callbackOnMail(mail) {
     }
 }
 
-// setIntervalPromise(function () {
-// Format 
-// Subject: collectionID:subject
+// Start the mail notificator to handle new request
 notifier(imap)
     .on('connected', function () {
         console.log('Checking email for DMCA request.');
@@ -96,8 +95,8 @@ notifier(imap)
         console.error(err.message);
     })
     .start();
-// }, config.dmca.refreshInterval).then();
 
+// Create a DMCA Request in the DB
 module.exports.createRequest = function (req, res) {
     Collection.findById(req.body.collection)
         .populate('user')
@@ -128,6 +127,7 @@ module.exports.createRequest = function (req, res) {
         });
 }
 
+// Get all DMCA requests
 module.exports.getRequests = function (req, res) {
     DmcaRequest.find()
         .populate('image_collection')
@@ -139,6 +139,7 @@ module.exports.getRequests = function (req, res) {
         });
 }
 
+// Update a DMCA Request to the state "Handled" and send a notification to the author
 module.exports.updateRequest = function (req, res) {
     DmcaRequest.findById(req.params.id)
         .populate('image_collection')
