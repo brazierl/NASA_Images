@@ -12,6 +12,7 @@ export class AppComponent {
   title = 'Image Collections';
   loggedIn$ = this.authenticationService.isLoggedIn();
   currentUser$ = this.authenticationService.getUser();
+  userProfile$ = this.authenticationService.readProfile();
 
   constructor(private authenticationService: AuthenticationService) { }
 

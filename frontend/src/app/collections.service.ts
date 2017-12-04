@@ -5,6 +5,7 @@ import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 import { Image } from './image';
 
+// Service to communicate with collection API
 @Injectable()
 export class CollectionsService {
 

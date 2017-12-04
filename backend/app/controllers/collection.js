@@ -7,6 +7,7 @@ module.exports.getPublicCollections = function (req, res) {
     Collection.find({ 'visibility': "public" })
         .populate('user')
         .exec(function (err, collections) {
+            console.log(collections);
             if (err)
                 res.send(err);
             else
@@ -62,18 +63,19 @@ module.exports.updateCollection = function (req, res) {
     Collection.findById(req.params.collection_id, function (err, collection) {
         if (err)
             res.send(err);
+        else {
+            collection.name = req.body.name;
+            collection.description = req.body.description;
+            collection.visibility = req.body.visibility;
+            collection.user = req.body.user;
 
-        collection.name = req.body.name;
-        collection.description = req.body.description;
-        collection.visibility = req.body.visibility;
-        collection.user = req.body.user;
-
-        collection.save(function (err) {
-            if (err)
-                res.send(err);
-            else
-                res.json({ message: 'Collection updated!' });
-        });
+            collection.save(function (err) {
+                if (err)
+                    res.send(err);
+                else
+                    res.json({ message: 'Collection updated!' });
+            });
+        }
     });
 }
 

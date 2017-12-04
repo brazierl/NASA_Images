@@ -16,6 +16,7 @@ var CollectionSchema = new Schema({
 
 CollectionSchema.pre('remove', function(next) {
     Image.remove({image_collection: this._id}).exec();
+    DmcaRequest.remove({mage_collection: this._id}).exec();
     next();
 });
 

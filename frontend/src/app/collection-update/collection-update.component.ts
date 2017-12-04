@@ -24,7 +24,7 @@ export class CollectionUpdateComponent implements OnInit {
   private success: boolean;
 
   user$ = this.authenticationService.getUser();
-  collection;
+  collection: Collection;
   images$: Observable<Image>;
 
   constructor(private collectionsService: CollectionsService,

@@ -1,0 +1,21 @@
+<div *ngIf="(user$ | async) as user">
+  <div *ngIf="user.administrator">
+    <h1>Administrator view</h1>
+    <h2>DMCA Requests</h2>
+    <div *ngIf="error" class="error-message">{{error}}</div>
+    <div *ngIf="success" class="success-message">{{success}}</div>
+    <mat-list class="dmca-list">
+      <mat-list-item *ngFor="let request of requests">
+        <mat-icon *ngIf="!(request.state=='handled')" mat-list-icon>report</mat-icon>
+        <mat-icon *ngIf="request.state=='handled'" mat-list-icon>check circle</mat-icon>
+        <h4 mat-line>
+          <a routerLink="/collections/{{request.image_collection._id}}">"{{request.subject}}" from {{request.from}}</a>
+        </h4>
+        <p mat-line>
+          <i>{{request.date}}:</i> {{request.body}}
+        </p>
+        <button *ngIf="!(request.state=='handled')" (click)="updateRequest(request)" mat-button>Notify author</button>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<mat-card *ngIf="user" class="form-card">
+  <h2>Your Profile</h2>
+  <div *ngIf="error" class="error-message">{{error}}</div>
+  <form #registerForm="ngForm">
+    <fieldset [disabled]="true">
+      <mat-form-field class="text-input">
+        <mat-placeholder>First name</mat-placeholder>
+        <input matInput type="text" id="firstname" name="firstname" [(ngModel)]="user.firstname" />
+      </mat-form-field>
+      <mat-form-field class="text-input">
+        <mat-placeholder>Last name</mat-placeholder>
+        <input matInput type="text" id="lastname" name="lastname" [(ngModel)]="user.lastname" />
+      </mat-form-field>
+      <mat-form-field class="text-input">
+        <mat-placeholder>Username</mat-placeholder>
+        <input matInput type="text" id="username" name="username" [(ngModel)]="user.username" />
+      </mat-form-field>
+      <mat-form-field class="text-input">
+        <mat-placeholder>Email address</mat-placeholder>
+        <input matInput type="email" id="email" name="email" email [(ngModel)]="user.email" />
+      </mat-form-field>
+    </fieldset>
+  </form>
+</mat-card>

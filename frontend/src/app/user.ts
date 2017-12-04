@@ -1,3 +1,4 @@
+// User model
 export class User {
     _id: string;
     firstname: string;
@@ -5,4 +6,5 @@ export class User {
     username: string;
     email: string;
     password: string;
+    administrator: boolean;
 }

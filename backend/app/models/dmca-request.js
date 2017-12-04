@@ -15,7 +15,8 @@ var DmcaRequestSchema = new Schema({
         type: String,
         required: true
     },
-    date: Date
+    date: Date,
+    state: String
 });
 
 module.exports = mongoose.model('DmcaRequest', DmcaRequestSchema);

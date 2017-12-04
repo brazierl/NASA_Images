@@ -36,7 +36,6 @@ export class CollectionAddComponent implements OnInit {
             (data) => {
               this.success = true;
               addForm.reset();
-              // this.router.navigate(['/collections']);
             },
             (err: HttpErrorResponse) => {
               this.handleError(err);

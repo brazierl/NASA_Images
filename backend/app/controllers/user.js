@@ -38,22 +38,33 @@ nev.configure({
 }, function (error, options) {
 });
 
-module.exports.profileRead = function (req, res) {
-    // If no user ID exists in the JWT return a 401
-    if (!req.payload._id) {
+module.exports.readProfile = function (req, res) {
+    var token = req.headers.authorization;
+    if (token) {
+        let payload = token.split('.')[1];
+        payload = Buffer.from(payload, 'base64').toString();
+        payload = JSON.parse(payload);
+
+        // If no user ID exists in the JWT return a 401
+        if (!payload._id) {
+            res.status(401).json({
+                "message": "UnauthorizedError: private profile"
+            });
+        } else {
+            // Otherwise continue
+            User
+                .findById(payload._id)
+                .exec(function (err, user) {
+                    if (user)
+                        res.status(200).json(user);
+                    else
+                        res.status(401).send('User not found.');
+                });
+        }
+    } else {
         res.status(401).json({
             "message": "UnauthorizedError: private profile"
         });
-    } else {
-        // Otherwise continue
-        User
-            .findById(req.payload._id)
-            .exec(function (err, user) {
-                if (user)
-                    res.status(200).json(user);
-                else
-                    res.status(401).send('User not found.');
-            });
     }
 };
 
@@ -64,6 +75,10 @@ module.exports.register = function (req, res) {
     user.setPassword(req.body.password);
     user.firstname = req.body.firstname;
     user.lastname = req.body.lastname;
+    if (req.body.administrator)
+        user.administrator = req.body.administrator;
+    else
+        user.administrator = false;
 
     nev.createTempUser(user, function (err, existingPersistentUser, newTempUser) {
         // some sort of error 
@@ -129,6 +144,7 @@ module.exports.login = function (req, res) {
         // If a user is found
         if (user) {
             token = user.generateJwt();
+            console.log(token);
             res.json({
                 token: token
             });

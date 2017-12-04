@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { of } from 'rxjs/observable/of';
@@ -10,6 +10,7 @@ export class AuthenticationService {
 
   private registerUrl = '/api/register';
   private loginUrl = '/api/login';
+  private profileUrl = '/api/profile';
 
   private loggedIn = new BehaviorSubject<boolean>(false);
   private user = new BehaviorSubject<User>(new User());
@@ -70,12 +71,20 @@ export class AuthenticationService {
     return this.user.asObservable();
   }
 
+  readProfile() {
+    return this.http.get<User>(this.profileUrl, this.createAuthorizationHeader());
+  }
+
   register(user) {
     return this.http.post(this.registerUrl, user);
   }
 
   login(user) {
     return this.http.post(this.loginUrl, user);
+  }
+
+  createAuthorizationHeader() {
+    return { headers: new HttpHeaders({ 'Authorization': this.getToken() }) };
   }
 
   handleError(operation = 'operation', result?) {

@@ -1,3 +1,4 @@
+<!-- Toolbar -->
 <mat-toolbar color="primary" class="menu" id="toolbar">
   <span id="site-name">
     <a routerLink="/">
@@ -19,13 +20,18 @@
   </div>
 </mat-toolbar>
 
+<!-- Collection menu items -->
 <mat-menu #collectionMenu="matMenu">
   <a routerLink="/collections" mat-menu-item> List </a>
   <a routerLink="/collections/add" mat-menu-item> Add </a>
   <a *ngIf="(currentUser$ | async) as currentUser" routerLink="/collections/user/{{currentUser._id}}" mat-menu-item> My Collections </a>
 </mat-menu>
 
+<!-- Logged in user menu items -->
 <mat-menu #userMenu="matMenu">
+  <span *ngIf="(userProfile$ | async) as profile">
+    <a *ngIf="profile.administrator" routerLink="/admin" mat-menu-item> Admin </a>
+  </span>
   <span>
     <a routerLink="/profile" mat-menu-item> Profile </a>
   </span>
@@ -33,7 +39,6 @@
     <button (click)="logout()" mat-menu-item> Logout </button>
   </span>
 </mat-menu>
-
 
 <ng-template #profile>
   <button mat-button [matMenuTriggerFor]="userMenu">
@@ -48,10 +53,12 @@
   </a>
 </ng-template>
 
+<!-- Main content -->
 <div class="main-container">
   <router-outlet></router-outlet>
 </div>
 
+<!-- Footer -->
 <footer>
   <div layout="row" layout-align="center center">
     <p>

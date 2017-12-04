@@ -143,18 +143,13 @@ router.route('/login')
         ctrlUser.login(req, res);
     });
 
-router.route('/users')
+router.route('/profile')
     // Get all users
     .get(function (req, res) {
-        User.find()
-            .exec(function (err, users) {
-                if (err)
-                    res.send(err);
-                res.json(users);
-            });
+        ctrlUser.readProfile(req,res);
     });
 
-router.get('/profile', auth, ctrlUser.profileRead);
+// router.get('/profile', auth, ctrlUser.readProfile);
 
 // on routes that end in /images
 // ----------------------------------------------------
@@ -199,8 +194,18 @@ router.route('/email-verification/:id')
     });
 
 router.route('/dmca/collections')
-    .post(function (req,res){
-        ctrlDmcaRequest.createRequest(req,res);
+    .post(function (req, res) {
+        ctrlDmcaRequest.createRequest(req, res);
+    })
+
+router.route('/dmca')
+    .get(function (req, res) {
+        ctrlDmcaRequest.getRequests(req, res);
+    });
+
+router.route('/dmca/:id')
+    .put(function (req, res) {
+        ctrlDmcaRequest.updateRequest(req, res);
     })
 
 app.use(passport.initialize());

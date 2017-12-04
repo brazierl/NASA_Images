@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ImagesService } from './images.service';
 import { AuthenticationService } from './authentication.service';
 import { CollectionsService } from './collections.service';
+import { DmcaService } from './dmca.service';
 
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
@@ -30,6 +31,9 @@ import { ImagesSelectorComponent } from './images-selector/images-selector.compo
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MyCollectionsComponent } from './my-collections/my-collections.component';
 import { AboutComponent } from './about/about.component';
+import { AdminViewComponent } from './admin-view/admin-view.component';
+import { AdminAuthenticationGuard } from './admin-authentication-guard';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,9 @@ import { AboutComponent } from './about/about.component';
     ImagesSelectorComponent,
     ConfirmationDialogComponent,
     MyCollectionsComponent,
-    AboutComponent
+    AboutComponent,
+    AdminViewComponent,
+    ProfileComponent
   ],
   imports: [
     MatInputModule,
@@ -63,7 +69,7 @@ import { AboutComponent } from './about/about.component';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [ImagesService, AuthenticationService, CollectionsService, AuthenticationGuard],
+  providers: [ImagesService, AuthenticationService, CollectionsService, DmcaService, AuthenticationGuard, AdminAuthenticationGuard],
   bootstrap: [AppComponent],
   entryComponents: [ImagesSelectorComponent, ConfirmationDialogComponent]
 })

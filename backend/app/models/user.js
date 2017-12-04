@@ -24,7 +24,16 @@ var UserSchema = new Schema({
     lastname: {
         type: String,
         required: true
+    },
+    // mongo command to set admin: db.users.update({username: '<username>'},{$set:{administrator:true}})
+    administrator: { 
+        type: Boolean
     }
+});
+
+UserSchema.pre('remove', function(next) {
+    Collection.remove({user: this._id}).exec();
+    next();
 });
 
 UserSchema.methods.setPassword = function (password) {

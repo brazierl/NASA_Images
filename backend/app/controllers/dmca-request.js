@@ -8,6 +8,8 @@ var nodemailer = require('nodemailer');
 const notifier = require('mail-notifier');
 var http = require("http");
 var querystring = require('querystring');
+const util = require('util');
+const setIntervalPromise = util.promisify(setInterval);
 
 // smtp config
 
@@ -35,21 +37,18 @@ const imap = {
     markSeen: true
 };
 
-
-// Format 
-// Subject: collectionID:subject
-notifier(imap).on('mail', function (mail) {
+function callbackOnMail(mail) {
     console.log('Mail receveived: ' + mail.subject);
     var splitSubject = mail.subject.split(':');
     if (splitSubject.length == 2) {
         const request = {
-            collection : splitSubject[0],
-            from : '"' + mail.from[0].name + '" <' + mail.from[0].address + '>',
-            body : mail.text,
-            subject : splitSubject[1],
-            date : new Date(mail.date)
+            collection: splitSubject[0],
+            from: '"' + mail.from[0].name + '" <' + mail.from[0].address + '>',
+            body: mail.text,
+            subject: splitSubject[1],
+            date: new Date(mail.date)
         }
-        
+
         const stringifyRequest = querystring.stringify(request);
         // HTTP post options
         const options = {
@@ -69,10 +68,10 @@ notifier(imap).on('mail', function (mail) {
             });
             res.on('end', () => {
                 const parsedData = JSON.parse(rawData);
-                if(parsedData.message){
+                if (parsedData.message) {
                     console.log(parsedData.message);
                 }
-                else{
+                else {
                     console.log('Error: Could not submit DMCA request.');
                 }
             });
@@ -80,11 +79,24 @@ notifier(imap).on('mail', function (mail) {
         req.on('error', (e) => {
             console.error(`Problem with request: ${e.message}`);
         });
-        console.log('-----------------------'+stringifyRequest);
         req.write(stringifyRequest);
         req.end();
     }
-}).start();
+}
+
+// setIntervalPromise(function () {
+// Format 
+// Subject: collectionID:subject
+notifier(imap)
+    .on('connected', function () {
+        console.log('Checking email for DMCA request.');
+    })
+    .on('mail', callbackOnMail)
+    .on('error', function (err) {
+        console.error(err.message);
+    })
+    .start();
+// }, config.dmca.refreshInterval).then();
 
 module.exports.createRequest = function (req, res) {
     Collection.findById(req.body.collection)
@@ -100,18 +112,67 @@ module.exports.createRequest = function (req, res) {
                     request.body = req.body.body;
                     request.subject = req.body.subject;
                     request.date = req.body.date;
+                    request.state = 'pending';
+                    request.save(function (err) {
+                        if (err)
+                            res.send(err);
+                        else {
+
+                        }
+                    });
+                } else {
+                    console.log("Could not find matching collection.");
+                    res.send(new Error("Could not find matching collection."));
+                }
+            }
+        });
+}
+
+module.exports.getRequests = function (req, res) {
+    DmcaRequest.find()
+        .populate('image_collection')
+        .exec(function (err, requests) {
+            if (err)
+                res.send(err);
+            else
+                res.json(requests);
+        });
+}
+
+module.exports.updateRequest = function (req, res) {
+    DmcaRequest.findById(req.params.id)
+        .populate('image_collection')
+        .populate({
+            path: 'image_collection',
+            populate: {
+                path: 'user',
+                model: 'User'
+            }
+        })
+        .exec(function (err, request) {
+            if (err)
+                res.send(err);
+            else {
+                if (request) {
+                    request.state = 'handled';
                     request.save(function (err) {
                         if (err)
                             res.send(err);
                         else {
                             let mailOptions = {
                                 from: 'Do Not Reply <' + config.mailserver.email + '>', // sender address
-                                to: collection.user.email, // list of receivers
+                                to: request.image_collection.user.email, // list of receivers
                                 subject: 'DCMA notice', // Subject line
-                                text: 'Hello,\n Your collection "' + collection.name + '" (' + config.dmca.collectionurl + '/' + collection._id + ') might infringe DMCA.'
+                                text: 'Hello,\n Your collection "' + request.image_collection.name + '" (' + config.dmca.collectionurl + '/' + request.image_collection._id + ') might infringe DMCA.'
+                                    + '\nFrom: ' + request.from
+                                    + '\nSubject: ' + request.subject
+                                    + '\nReason: ' + request.body
                                     + '\nPlease regularize the situation or your collection will be deleted.'
                                     + '\nThank you for your cooperation.', // plain text body
-                                html: '<p>Hello,<br/> Your collection "' + collection.name + '" (' + config.dmca.collectionurl + '/' + collection._id + ') might infringe DMCA.'
+                                html: '<p>Hello,<br/> Your collection "' + request.image_collection.name + '" (' + config.dmca.collectionurl + '/' + request.image_collection._id + ') might infringe DMCA.'
+                                    + '<br/>From: ' + request.from
+                                    + '<br/>Subject: ' + request.subject
+                                    + '<br/>Reason: ' + request.body
                                     + '<br/>Please regularize the situation or your collection will be deleted.'
                                     + '<br/>Thank you for your cooperation.</p>' // html body
                             };
@@ -129,8 +190,7 @@ module.exports.createRequest = function (req, res) {
                         }
                     });
                 } else {
-                    console.log("Could not find matching collection.");
-                    res.send(new Error("Could not find matching collection."));
+                    res.send(new Error("Could not find the request."));
                 }
             }
         });

@@ -10,7 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http/src/response';
 })
 export class CollectionListComponent implements OnInit {
 
-  collections: any;
+  collections: Collection[];
 
   constructor(private collectionsService: CollectionsService) {
     this.collectionsService.getPublicCollections().subscribe(

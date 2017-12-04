@@ -54,7 +54,9 @@ config.mailserver.imaphost = 'imap.gmail.com';
 config.mailserver.imapport = 993;
 config.mailserver.imapsecure = true;
 
+// DMCA config
 config.dmca.collectionurl = config.siteurl + '/collections';
 config.dmca.requestpath = '/api/dmca/collections';
+config.dmca.refreshInterval = 1000; // in ms
 
 module.exports = config;
